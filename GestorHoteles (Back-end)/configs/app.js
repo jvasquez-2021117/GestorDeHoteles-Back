@@ -5,6 +5,8 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
 
+const eventTypeRoutes = require('../src/eventType/eventType.routes')
+
 const app = express();
 const port = process.env.PORT || 3200;
 
@@ -17,8 +19,9 @@ app.use(helmet());
 app.use(cors());
 
 app.use('/roomType', roomTypeRoutes);
+app.use('/eventType', eventTypeRoutes)
 
-exports.initServer = () =>{
+exports.initServer = () => {
     app.listen(port);
     console.log(`Server http running in port ${port}`);
 }
