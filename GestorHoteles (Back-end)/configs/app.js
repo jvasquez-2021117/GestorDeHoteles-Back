@@ -11,6 +11,7 @@ const app = express();
 const port = process.env.PORT || 3200;
 
 const roomTypeRoutes = require('../src/roomType/roomType.routes');
+const roomRoutes = require('../src/room/room.routes');
 
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
@@ -20,6 +21,7 @@ app.use(cors());
 
 app.use('/roomType', roomTypeRoutes);
 app.use('/eventType', eventTypeRoutes)
+app.use('/room', roomRoutes);
 
 exports.initServer = () => {
     app.listen(port);
