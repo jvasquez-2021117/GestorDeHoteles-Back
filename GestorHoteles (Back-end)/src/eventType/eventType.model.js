@@ -2,12 +2,13 @@
 
 const mongoose = require('mongoose');
 
-const roomTypeSchema = mongoose.Schema({
+const eventTypeSchema = mongoose.Schema({
     description: {
         type: String
     }
+
 }, {
     versionKey: false
 });
 
-module.exports = mongoose.model('RoomType', roomTypeSchema);
+module.exports = mongoose.model('EventType', eventTypeSchema);
