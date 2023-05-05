@@ -4,10 +4,12 @@ const mongoose = require('mongoose');
 
 const servicesSchema = mongoose.Schema({
     description: {
-        type: String
+        type: String,
+        required: true
     },
     price: {
-        type: String
+        type: String,
+        required: true
     }
 }, {
     versionKey: false

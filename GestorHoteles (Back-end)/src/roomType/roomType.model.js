@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 
 const roomTypeSchema = mongoose.Schema({
-    name: {
+    description: {
         type: String
     }
 }, {
