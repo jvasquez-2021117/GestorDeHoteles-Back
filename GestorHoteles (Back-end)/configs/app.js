@@ -10,12 +10,15 @@ const eventTypeRoutes = require('../src/eventType/eventType.routes')
 const app = express();
 const port = process.env.PORT || 3200;
 
-app.use(express.urlencoded({ extended: false }));
+const roomTypeRoutes = require('../src/roomType/roomType.routes');
+
+app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(helmet());
 app.use(cors());
 
+app.use('/roomType', roomTypeRoutes);
 app.use('/eventType', eventTypeRoutes)
 
 exports.initServer = () => {
