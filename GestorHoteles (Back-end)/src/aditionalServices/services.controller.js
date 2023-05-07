@@ -3,7 +3,7 @@
 const Services = require('./services.model');
 
 exports.test = (req, res)=>{
-    res.send({message: 'test fuction is running'});
+    return res.send({message: 'test fuction is running'});
 }
 
 exports.addServices = async(req, res)=>{

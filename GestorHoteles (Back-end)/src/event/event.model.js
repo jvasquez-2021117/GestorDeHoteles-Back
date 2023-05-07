@@ -4,14 +4,17 @@ const mongoose = require('mongoose');
 
 const eventSchema = mongoose.Schema({
     name: {
-        type: String
+        type: String,
+        required: true
     },
     description: {
-        type: String
+        type: String,
+        required: true
     },
     eventType: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'EventType'
+        ref: 'EventType',
+        required: true
     }
 }, {
     versionKey: false
