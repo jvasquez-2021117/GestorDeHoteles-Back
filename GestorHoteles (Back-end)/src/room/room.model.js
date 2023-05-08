@@ -8,11 +8,11 @@ const roomSchema = mongoose.Schema({
         required: true
     },
     noGuest:{
-        type: String,
+        type: Number,
         required: true
     },
     price: {
-        type: String,
+        type: Number,
         required: true
     },
     roomType: {

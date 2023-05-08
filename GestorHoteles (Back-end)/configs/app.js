@@ -21,8 +21,8 @@ app.use(morgan('dev'));
 app.use(helmet());
 app.use(cors());
 
-/*app.use('/room', roomRoutes);
-app.use('/roomType', roomTypeRoutes);*/
+app.use('/room', roomRoutes);
+app.use('/roomType', roomTypeRoutes);
 app.use('/events', eventTypeRoutes);
 app.use('/services', servicesRoutes);
 app.use('/event', eventRoutes);
