@@ -3,8 +3,9 @@
 const mongoose = require('mongoose');
 
 const roomTypeSchema = mongoose.Schema({
-    description: {
-        type: String
+    name: {
+        type: String,
+        required: true
     }
 }, {
     versionKey: false
