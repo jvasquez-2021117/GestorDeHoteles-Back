@@ -13,6 +13,7 @@ const eventRoutes = require('../src/event/event.routes');
 const roomTypeRoutes = require('../src/roomType/roomType.routes');
 const roomRoutes = require('../src/room/room.routes');
 const consumptionRoutes = require('../src/consumption/consumption.routes');
+const hotelRoutes = require('../src/hotel/hotel.routes');
 
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
@@ -26,8 +27,7 @@ app.use('/events', eventTypeRoutes);
 app.use('/services', servicesRoutes);
 app.use('/event', eventRoutes);
 app.use('/consumption', consumptionRoutes);
-
-
+app.use('/hotel', hotelRoutes);
 
 exports.initServer = () => {
     app.listen(port);
