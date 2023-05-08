@@ -25,12 +25,25 @@ exports.updateHotel = async(req, res)=>{
     try{
         let hotelId = req.params.id;
         let data = req.body;
-        let updatehotel = await Hotel.findOneAndUpdate({_id: hotelId}, data, {new: true});
-        if(!updatehotel) return res.send({message: 'Hotel not found'});
+        let updateHotel = await Hotel.findOneAndUpdate({_id: hotelId}, data, {new: true});
+        if(!updateHotel) return res.send({message: 'Hotel not found'});
         return res.status(201).send({message: 'Hotel updated successfully'});
     }catch(err){
         console.error();
         return res.status(500).send({message: 'Error updating Hotel'});
+    }
+}
+
+exports.deleteHotel = async(req, res)=>{
+    try {
+        let hotelId = req.params.id
+        let data = req.body;
+        let deleteHotel = await Hotel.findByIdAndDelete({_id: hotelId});
+        if(!deleteHotel) return res.send({message: 'Hotel not found'});
+        return res.status(201).send({message: 'Hotel deleted successfully'});
+    }catch(error){
+        console.error(error)
+        return res.status(500).send({message: 'Error deleting Hotel'});
     }
 }
 
