@@ -4,21 +4,26 @@ const mongoose = require('mongoose');
 
 const hotelSchema = mongoose.Schema({
     name: {
-        type: String
+        type: String,
+        required: true
     },
     description: {
-        type: String
+        type: String,
+        required: true
     },
     address: {
-        type: String
+        type: String,
+        required: true
     },
     qualification: {
-        type: String
+        type: String,
+        required: true
     },
     rooms: [{
         room: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Room'
+            ref: 'Room',
+            required: true
         }
     }]
 }, {
