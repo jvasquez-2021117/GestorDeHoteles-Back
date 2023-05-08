@@ -19,13 +19,13 @@ const hotelSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    rooms: [{
-        room: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Room',
-            required: true
-        }
-    }]
+    rooms: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Room',
+                required: true
+            }
+    ]
 }, {
     versionKey: false
 });

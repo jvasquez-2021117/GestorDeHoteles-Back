@@ -1,6 +1,9 @@
 'use strict'
 
 const Bill = require('./bill.model');
+const Room = require('../room/room.model')
+const Service = require('../aditionalServices/services.model');
+const Consumption = require('../consumption/consumption.model');
 
 exports.test = (req, res)=>
 {
@@ -12,7 +15,20 @@ exports.addBill = async(req, res)=>{
         let data = req.body;
         let billExist = await Bill.findOne({description: data.description});
         if(billExist) return res.send({message: 'Bill already exists'});
-        let bill = new Bill(data);
+        let roomUpdate = await Room.findByIdAndUpdate({_id: data.room}, {availability: 'No disponible'}, {new: true});
+        data.roomPrice = parseInt(roomUpdate.price);
+        let totalServices = 0; 
+        let totalConsumption = 0;
+        for(let i = 0; i<data.services; i++){
+            let service = await Service.findOne({_id: data.services[i]});
+            totalServices = parseInt(totalServices) + parseInt(service.price);
+        }
+        for(let i = 0; i<data.consumption; i++){
+            let consumption = await Consumption.findOne({_id: data.consumption});
+            totalConsumption =parseInt(totalConsumption) + parseInt(consumption.price)
+        }
+        let total = totalServices + totalConsumption + data.roomPrice;
+        let bill = new Bill({user: data.user, name: data.name, surname: data.surname, nit: data.nit, hotel: data.hotel, room: data.room, description: data.description, roomPrice: data.roomPrice, services:  data.services, consumption: data.consumption, total: total});
         await bill.save();
         return res.status(201).send({message: 'Bill added successfully'});
     }catch(err){
