@@ -19,6 +19,9 @@ const roomSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'RoomType',
         required: true
+    },
+    availability: {
+        type: String
     }
 },{
     versionKey: false

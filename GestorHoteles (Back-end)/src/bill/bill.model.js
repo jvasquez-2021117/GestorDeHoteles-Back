@@ -38,16 +38,20 @@ const billSchema = mongoose.Schema({
         type: Number,
         required: true
     },
-    services: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'AditionalServices',
-        required: true
-    },
-    consumption: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Consumption',
-        required: true
-    },
+    services: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'AditionalServices',
+            required: true
+        }
+    ],
+    consumption: [ 
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Consumption',
+            required: true
+        }
+    ],
     total: {
         type: Number,
         required: true

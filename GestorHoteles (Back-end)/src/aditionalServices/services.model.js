@@ -3,6 +3,10 @@
 const mongoose = require('mongoose');
 
 const servicesSchema = mongoose.Schema({
+    name:{
+        type: String,
+        require: true
+    },
     description: {
         type: String,
         required: true
