@@ -5,7 +5,7 @@ const { encrypt, checkPassword } = require('../utils/validate');
 
 
 exports.test = (req, res) => {
-    return res.send({ message: 'Test function running UserHotel' });
+    return res.send({ message: 'Test function running UserHotel Complete' });
 }
 
 exports.addUserHotel = async (req, res) => {
