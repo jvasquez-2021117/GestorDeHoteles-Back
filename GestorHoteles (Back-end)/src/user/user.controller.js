@@ -66,3 +66,39 @@ exports.viewUsers = async (req, res) => {
         return res.status(404).send({ message: 'Error not view users' });
     }
 }
+
+exports.updateUser = async (req, res) => {
+    try {
+        let idUser = req.params.id;
+        let data = req.body;
+        if (data.password != null) return res.send({ message: 'Password not update' });
+        let adminUser = User.findOne({ role: "ADMIN-APP" });
+        if (idUser == adminUser._id) return res.send({ message: 'Admin not update' });
+        let existUser = await User.findOne({ email: data.email });
+        if (existUser) return res.send({ message: 'This email already exists' });
+        let updatedUser = User.findOneAndUpdate(
+            { _id: idUser },
+            data,
+            { new: true }
+        )
+        if (!updatedUser) return res.send({ message: 'User not found and not update' });
+        return res.send({ message: 'User updated', idUser })
+    } catch (e) {
+        console.error(e);
+        return res.status(404).send({ message: 'Error updating user' });
+    }
+}
+
+exports.deleteUser = async (req, res) => {
+    try {
+        let idUser = req.params.id;
+        let adminUser = User.findOne({ role: "ADMIN-APP" });
+        if (idUser == adminUser._id) return res.send({ message: 'Admin not update' });
+        let userDeleted = await User.findOneAndDelete({ _id: idUser });
+        if (!userDeleted) return res.send({ message: 'Account not found and not deleted' });
+        return res.send({ message: 'User deleting succesfully' });
+    } catch (e) {
+        console.error(e);
+        return res.status(404).send({ message: 'Error deleting user' });
+    }
+}
