@@ -5,41 +5,56 @@ const mongoose = require('mongoose');
 const billSchema = mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     },
     name: {
-        type: String
+        type: String,
+        required: true
     },
     surname: {
-        type: String
+        type: String,
+        required: true
     },
     nit: {
-        type: String
+        type: String,
+        required: true
     },
     hotel: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Hotel'
+        ref: 'Hotel',
+        required: true
     },
     room: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Room'
+        ref: 'Room',
+        required: true
     },
     description: {
-        type: String
+        type: String,
+        required: true
     },
     roomPrice: {
-        type: Number
+        type: Number,
+        required: true
     },
-    services: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'AditionalServices'
-    },
-    consumption: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Consumption'
-    },
+    services: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'AditionalServices',
+            required: true
+        }
+    ],
+    consumption: [ 
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Consumption',
+            required: true
+        }
+    ],
     total: {
-        type: Number
+        type: Number,
+        required: true
     }
 }, {
     versionKey: false

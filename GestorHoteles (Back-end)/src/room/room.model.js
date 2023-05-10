@@ -8,17 +8,20 @@ const roomSchema = mongoose.Schema({
         required: true
     },
     noGuest:{
-        type: String,
+        type: Number,
         required: true
     },
     price: {
-        type: String,
+        type: Number,
         required: true
     },
     roomType: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'RoomType',
         required: true
+    },
+    availability: {
+        type: String
     }
 },{
     versionKey: false

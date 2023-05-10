@@ -5,25 +5,30 @@ const mongoose = require('mongoose');
 const reservationSchema = mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     },
     hotel: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Hotel'
+        ref: 'Hotel',
+        required: true
     },
     room: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Room'
+        ref: 'Room',
+        required: true
     },
     event: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Event'
+        ref: 'Event',
+        required: true
     },
     date: {
-
+        type: Date,
+        required: true
     }
 }, {
     versionKey: false
 });
 
-module.exports = mongoose.model('User', reservationSchema);
+module.exports = mongoose.model('Reservation', reservationSchema);

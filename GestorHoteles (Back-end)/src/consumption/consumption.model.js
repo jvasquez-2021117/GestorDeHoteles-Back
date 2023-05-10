@@ -4,10 +4,12 @@ const mongoose = require('mongoose');
 
 const consumptionSchema = mongoose.Schema({
     product: {
-        type: String
+        type: String,
+        required: true
     },
     price: {
-        type: String
+        type: String,
+        required: true
     }
 }, {
     versionKey: false
