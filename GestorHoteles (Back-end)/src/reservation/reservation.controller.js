@@ -1,6 +1,7 @@
 'use strict'
 
 const Reservation = require('./reservation.model');
+const Hotel = require('../hotel/hotel.model');
 
 exports.test = (req, res)=>
 {
