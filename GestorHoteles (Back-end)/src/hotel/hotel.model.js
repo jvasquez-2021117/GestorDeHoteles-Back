@@ -25,7 +25,11 @@ const hotelSchema = mongoose.Schema({
                 ref: 'Room',
                 required: true
             }
-    ]
+    ],
+    nOfReservations: {
+            type: Number,
+            default: 0
+        }
 }, {
     versionKey: false
 });

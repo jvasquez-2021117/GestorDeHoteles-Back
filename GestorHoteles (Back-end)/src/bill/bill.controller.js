@@ -4,6 +4,7 @@ const Bill = require('./bill.model');
 const Room = require('../room/room.model')
 const Service = require('../aditionalServices/services.model');
 const Consumption = require('../consumption/consumption.model');
+const Hotel = require('../hotel/hotel.model');
 
 exports.test = (req, res)=>
 {
@@ -19,17 +20,19 @@ exports.addBill = async(req, res)=>{
         data.roomPrice = parseInt(roomUpdate.price);
         let totalServices = 0; 
         let totalConsumption = 0;
-        for(let i = 0; i<data.services; i++){
+        for(let i = 0; i<data.services.length; i++){
             let service = await Service.findOne({_id: data.services[i]});
             totalServices = parseInt(totalServices) + parseInt(service.price);
         }
-        for(let i = 0; i<data.consumption; i++){
-            let consumption = await Consumption.findOne({_id: data.consumption});
+        for(let i = 0; i<data.consumption.length; i++){
+            let consumption = await Consumption.findOne({_id: data.consumption[i]});
             totalConsumption =parseInt(totalConsumption) + parseInt(consumption.price)
         }
         let total = totalServices + totalConsumption + data.roomPrice;
         let bill = new Bill({user: data.user, name: data.name, surname: data.surname, nit: data.nit, hotel: data.hotel, room: data.room, description: data.description, roomPrice: data.roomPrice, services:  data.services, consumption: data.consumption, total: total});
         await bill.save();
+        let hotel = await Hotel.findOne({_id: data.hotel});
+        await Hotel.findOneAndUpdate({_id: data.hotel}, {nOfReservations: parseInt(hotel.nOfReservations) + 1}, {new: true});
         return res.status(201).send({message: 'Bill added successfully'});
     }catch(err){
         console.error(err);
