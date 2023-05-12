@@ -19,13 +19,6 @@ const hotelSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    rooms: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Room',
-            required: true
-        }
-    ],
     nOfReservations: {
         type: Number,
         default: 0

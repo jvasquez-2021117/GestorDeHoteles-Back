@@ -1,6 +1,7 @@
 'use strict'
 
 const Room = require('./room.model');
+const Hotel = require('../hotel/hotel.model');
 
 exports.test = (req, res)=>{
     return  res.send({message: 'Test fuction is running'});
@@ -9,8 +10,11 @@ exports.test = (req, res)=>{
 exports.add = async(req, res)=>{
     try{
         let data = req.body;
-        let roomExists = await Room.findOne({name: data.name});
+        data.availability = 'Disponible';
+        let roomExists = await Room.findOne({$and: [{name: data.name}, {hotel: data.hotel}]});
         if(roomExists) return res.send({message: 'Room already exists'});
+        let hotel = await Hotel.findOne({_id: data.hotel});
+        if(!hotel) return res.send({message: 'Hotel not found'}); 
         let newRoom = new Room(data);
         await newRoom.save();
         return res.status(200).send({message: 'Room created successfully'});
@@ -62,6 +66,27 @@ exports.getById = async(req, res)=>{
         return res.status(200).send({room});
     }catch(e){
         console.error(e);
-        return res.status(500).send({message: 'Error getting'})
+        return res.status(500).send({message: 'Error getting'});
+    }
+}
+
+exports.getByAvailability = async(req, res)=>{
+    try{
+        let rooms = await Room.find({availability: 'Disponible'});
+        return res.status(200).send({rooms});
+    }catch(e){
+        console.error(e);
+        return res.status(500).send({message: 'Error getting'});
+    }
+}
+
+exports.countRoomsAvailability = async(req, res)=>{
+    try{
+        let rooms = await Room.find({availability: 'Disponible'});
+        let count = rooms.length;
+        return res.status(200).send({count});
+    }catch(e){
+        console.error(e);
+        return res.status(500).send({message: 'Error count'});
     }
 }
