@@ -20,16 +20,19 @@ const hotelSchema = mongoose.Schema({
         required: true
     },
     rooms: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Room',
-                required: true
-            }
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Room',
+            required: true
+        }
     ],
     nOfReservations: {
-            type: Number,
-            default: 0
-        }
+        type: Number,
+        default: 0
+    },
+    photo: {
+        type: String
+    }
 }, {
     versionKey: false
 });

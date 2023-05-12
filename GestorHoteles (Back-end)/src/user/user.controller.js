@@ -1,8 +1,8 @@
 'use strict'
 
 const User = require('./user.model');
-const { encrypt, checkPassword } = require('../utils/validate');
-
+const { encrypt, checkPassword, validateData } = require('../utils/validate');
+const { createToken } = require('../services/jwt')
 
 exports.test = (req, res) => {
     return res.send({ message: 'Test function running User' });
@@ -11,10 +11,10 @@ exports.test = (req, res) => {
 exports.adminDefault = async (req, res) => {
     try {
         let admin = {
-            name: 'Selvin',
-            surname: 'Chuquiej',
+            name: 'Admin',
+            surname: 'Admin',
             password: '123',
-            email: 'schuquiej@gmail.com',
+            email: 'admin@gmail.com',
             phone: '12345678',
             role: 'ADMIN-APP',
         }
@@ -48,8 +48,17 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
     try {
         let data = req.body;
+        let msg = validateData(data.email, data.password);
+        if (msg) return res.status(400).send({ message: msg });
         let user = await User.findOne({ email: data.email });
-        if (user) return res.send({ message: 'User logged' });
+        if (user && await checkPassword(data.password, user.password)) {
+            let token = await createToken(user);
+            let userLogged = {
+                name: user.name,
+                surname: user.surname
+            }
+            return res.send({ message: 'Use logged succesfully', token, userLogged });
+        }
         return res.status(404).send({ message: 'Invalid Credentials' });
     } catch (e) {
         console.error(e);
@@ -93,7 +102,7 @@ exports.deleteUser = async (req, res) => {
     try {
         let idUser = req.params.id;
         let adminUser = User.findOne({ role: "ADMIN-APP" });
-        if (idUser == adminUser._id) return res.send({ message: 'Admin not update' });
+        if (idUser == adminUser._id) return res.send({ message: 'Admin not deleted' });
         let userDeleted = await User.findOneAndDelete({ _id: idUser });
         if (!userDeleted) return res.send({ message: 'Account not found and not deleted' });
         return res.send({ message: 'User deleting succesfully' });
