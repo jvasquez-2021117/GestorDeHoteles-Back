@@ -68,3 +68,14 @@ exports.getById = async(req, res)=>{
         return res.status(500).send({message: 'Error getting'});
     }
 }
+
+exports.hotelReservation = async(req, res)=>{
+    try{
+        let { hotel } = req.body;
+        let reservations = await Reservation.find({hotel: hotel});
+        return res.status(200).send({reservations});
+    }catch(e){
+        console.error(e);
+        return res.status(500).send({message: 'Error getting'});
+    }
+}
