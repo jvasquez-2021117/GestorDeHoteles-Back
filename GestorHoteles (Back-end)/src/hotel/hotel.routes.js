@@ -11,5 +11,7 @@ api.delete('/deleteHotel/:id', hotelController.deleteHotel);
 api.get('/getHotel', hotelController.getHotel);
 api.get('/getById/:id', hotelController.getById);
 
+api.put('/uploadImg/:id', hotelController.updateImg);
+
 
 module.exports = api;

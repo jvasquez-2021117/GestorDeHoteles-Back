@@ -20,9 +20,12 @@ const hotelSchema = mongoose.Schema({
         required: true
     },
     nOfReservations: {
-            type: Number,
-            default: 0
-        }
+        type: Number,
+        default: 0
+    },
+    photo: {
+        type: String
+    }
 }, {
     versionKey: false
 });
