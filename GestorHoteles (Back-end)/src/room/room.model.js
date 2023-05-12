@@ -22,7 +22,13 @@ const roomSchema = mongoose.Schema({
     },
     availability: {
         type: String
+    },
+    hotel: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Hotel',
+        required: true
     }
+    
 },{
     versionKey: false
 });
