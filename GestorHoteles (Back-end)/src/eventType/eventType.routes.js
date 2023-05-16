@@ -8,5 +8,6 @@ api.get('/test', eventTypeController.test);
 api.post('/add', eventTypeController.addEventType);
 api.put('/update/:id', eventTypeController.updateEventType);
 api.delete('/delete/:id', eventTypeController.deleteEventType);
+api.get('/get', eventTypeController.get)
 
 module.exports = api;
