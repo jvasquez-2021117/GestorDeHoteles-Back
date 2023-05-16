@@ -90,3 +90,13 @@ exports.countRoomsAvailability = async(req, res)=>{
         return res.status(500).send({message: 'Error count'});
     }
 }
+
+exports.searchRoomByHotel = async(req, res) =>{
+    try {
+        let { id } = req.params;
+        let rooms = await Room.find({hotel: id}).populate('roomType');
+        return res.status(200).send({rooms});
+    } catch (e) {
+        console.log(e);
+    }
+}

@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 
 const eventTypeSchema = mongoose.Schema({
     description: {
-        type: String
+        type: String,
+        required: true
     }
 
 }, {
