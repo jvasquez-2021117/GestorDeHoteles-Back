@@ -45,7 +45,7 @@ exports.updateUserHotel = async (req, res) => {
 }
 
 
-exports.deleteUserHotel = async(req, res)=> {
+exports.deleteUserHotel = async (req, res) => {
     try {
         let idUserHotel = req.params.id;
         let userDeleted = await UserHotel.findOneAndDelete({ _id: idUserHotel });
@@ -54,5 +54,15 @@ exports.deleteUserHotel = async(req, res)=> {
     } catch (e) {
         console.error(e);
         return res.status(404).send({ message: 'Error deleting user' });
+    }
+}
+
+exports.viewUsersHotel = async (req, res) => {
+    try {
+        let usersHotel = await UserHotel.find().populate('hotel');
+        return res.send({ usersHotel });
+    } catch (e) {
+        console.error(e);
+        return res.status(404).send({ message: 'Error not view users' });
     }
 }
