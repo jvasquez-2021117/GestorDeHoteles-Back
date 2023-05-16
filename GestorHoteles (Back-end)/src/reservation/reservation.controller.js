@@ -11,7 +11,7 @@ exports.test = (req, res) => {
 exports.addReservation = async (req, res) => {
     try {
         let data = req.body;
-        let reservationExist = await Reservation.findOne({ description: data.description });
+        let reservationExist = await Reservation.findOne({ $and:[{user: data.user}, {room: data.room}, {date: data.date}] });
         if (reservationExist) return res.send({ message: 'Reservation already exists' });
         let reservation = new Reservation(data);
         await reservation.save();
