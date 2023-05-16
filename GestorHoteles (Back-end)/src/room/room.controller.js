@@ -51,7 +51,7 @@ exports.delete = async(req, res)=>{
 
 exports.get = async(req, res)=>{
     try{
-        let rooms = await Room.find();
+        let rooms = await Room.find().populate('roomType').populate('hotel');
         return res.status(200).send({rooms});
     }catch(e){
         console.error(e);

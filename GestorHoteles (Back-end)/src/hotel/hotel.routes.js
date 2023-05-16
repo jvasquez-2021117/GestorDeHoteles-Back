@@ -3,6 +3,8 @@
 const express = require('express');
 const api = express.Router();
 const hotelController = require('./hotel.controller');
+const connectMultiparty = require('connect-multiparty');
+const upload = connectMultiparty({ uploadDir: './uploads/hotels' });
 
 api.get('/test', hotelController.test);
 api.post('/addHotel', hotelController.addHotel);
@@ -11,7 +13,7 @@ api.delete('/deleteHotel/:id', hotelController.deleteHotel);
 api.get('/getHotel', hotelController.getHotel);
 api.get('/getById/:id', hotelController.getById);
 
-api.put('/uploadImg/:id', hotelController.updateImg);
+api.put('/uploadImg/:id', upload, hotelController.updateImg);
 
 
 module.exports = api;
