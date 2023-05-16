@@ -1,6 +1,7 @@
 'use strict'
 
 const Hotel = require('./hotel.model');
+const path = require('path')
 
 exports.test = (req, res) => {
     return res.send({ message: 'Test function running' });
