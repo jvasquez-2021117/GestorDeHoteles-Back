@@ -12,6 +12,7 @@ api.get('/get', roomController.get);
 api.get('/getById/:id', roomController.getById);
 api.get('/countRoomsAvailability', roomController.countRoomsAvailability);
 api.get('/getByAvailability', roomController.getByAvailability);
+api.get('/searchRoomByHotel/:id', roomController.searchRoomByHotel)
 
 
 module.exports = api;
