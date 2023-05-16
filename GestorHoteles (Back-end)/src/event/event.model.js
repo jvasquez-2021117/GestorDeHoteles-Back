@@ -15,6 +15,11 @@ const eventSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'EventType',
         required: true
+    },
+    hotel: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Hotel',
+        required: true
     }
 }, {
     versionKey: false
