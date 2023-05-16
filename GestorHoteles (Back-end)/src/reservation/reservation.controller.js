@@ -2,6 +2,7 @@
 
 const Reservation = require('./reservation.model');
 const Hotel = require('../hotel/hotel.model');
+const Room = require('../room/room.model');
 
 exports.test = (req, res)=>
 {
@@ -15,6 +16,7 @@ exports.addReservation = async(req, res)=>{
         if(reservationExist) return res.send({message: 'Reservation already exists'});
         let reservation = new Reservation(data);
         await reservation.save();
+        let updateRoom = await Room.findOneAndUpdate({_id: data.room}, {availability: 'No disponible'});
         return res.status(201).send({message: 'Reservation added successfully'});
     }catch(err){
         console.error(err);
@@ -40,6 +42,7 @@ exports.deleteReservation = async(req, res)=>{
         let reservationId = req.params.id
         let deleteReservation = await Reservation.findByIdAndDelete({_id: reservationId});
         if(!deleteReservation) return res.send({message: 'Reservation not found'});
+        let updateRoom = await Room.findOneAndUpdate({_id: data.room}, {availability: 'Disponible'});
         return res.status(201).send({message: 'Reservation deleted successfully'});
     }catch(error){
         console.error(error)
