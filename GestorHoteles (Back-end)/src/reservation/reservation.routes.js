@@ -10,7 +10,7 @@ api.put('/updateReservation/:id', reservationController.updateReservation);
 api.delete('/deleteReservation/:id', reservationController.deleteReservation);
 api.get('/getReservation', reservationController.getReservation);
 api.get('/getById/:id', reservationController.getById);
-api.post('/hotelReservation', reservationController.hotelReservation);
+api.get('/hotelReservation/:id', reservationController.hotelReservation);
 
 
 module.exports = api;
