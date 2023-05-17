@@ -35,7 +35,7 @@ exports.updateEvent = async (req, res) => {
 
 exports.getEvent = async (req, res) => {
     try {
-        let event = await Events.find().populate('eventType');
+        let event = await Events.find().populate('eventType').populate('hotel');
         return res.status(200).send({ event });
     } catch (err) {
         console.error(err);
@@ -55,24 +55,36 @@ exports.getById = async (req, res) => {
     }
 }
 
-exports.searchEvents = async(req, res)=>{
-    try{
+exports.searchEvents = async (req, res) => {
+    try {
         let data = req.body;
-        let events = await Events.findOne({$and: [{_id: data.hotel}, {event: data.event}]});
-        return res.status(200).send({events});
-    }catch(e){
+        let events = await Events.findOne({ $and: [{ _id: data.hotel }, { event: data.event }] });
+        return res.status(200).send({ events });
+    } catch (e) {
         console.error(e);
-        return res.status(500).send({message: 'Error to search'})
+        return res.status(500).send({ message: 'Error to search' })
     }
 }
 
-exports.searchEventByHotel = async(req, res)=>{
-    try{
+exports.searchEventByHotel = async (req, res) => {
+    try {
         let { id } = req.params;
-        let events = await Events.find({hotel: id}).populate('eventType');
-        return res.status(200).send({events});
-    }catch(e){
+        let events = await Events.find({ hotel: id }).populate('eventType');
+        return res.status(200).send({ events });
+    } catch (e) {
         console.error(e);
-        return res.status(500).send({message: 'Error to search 222'})
+        return res.status(500).send({ message: 'Error to search 222' })
+    }
+}
+
+exports.deleteEvent = async (req, res) => {
+    try {
+        let idEvent = req.params.id
+        let deletedEvent = await Events.findOneAndDelete({ _id: idEvent })
+        if (!deletedEvent) return res.status(404).send({ message: 'Event not found and not deleted' })
+        return res.send({ message: 'Event deleted sucessfully' })
+    } catch (e) {
+        console.error(e);
+        return res.status(500).send({ message: 'Error to search 222' })
     }
 }
