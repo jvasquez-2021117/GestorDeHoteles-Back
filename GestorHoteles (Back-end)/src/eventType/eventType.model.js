@@ -7,7 +7,6 @@ const eventTypeSchema = mongoose.Schema({
         type: String,
         required: true
     }
-
 }, {
     versionKey: false
 });
