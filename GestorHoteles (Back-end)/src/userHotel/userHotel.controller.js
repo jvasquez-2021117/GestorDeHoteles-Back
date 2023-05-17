@@ -65,3 +65,14 @@ exports.viewUsersHotel = async (req, res) => {
         return res.status(404).send({ message: 'Error not view users' });
     }
 }
+
+exports.getById = async (req, res) => {
+    try {
+        let { id } = req.params
+        let userHotel = await UserHotel.findOne({ _id: id });
+        return res.status(200).send({userHotel});
+    } catch (e) {
+        console.error(e);
+        return res.status(500).send({ message: 'Error getting' });
+    }
+}
