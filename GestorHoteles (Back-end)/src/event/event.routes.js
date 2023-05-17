@@ -10,5 +10,5 @@ api.put('/updateEvent/:id', eventController.updateEvent);
 api.get('/getEvent', eventController.getEvent);
 api.get('/getById/:id', eventController.getById);
 api.get('/searchEventByHotel/:id', eventController.searchEventByHotel);
-
+api.delete('/deleteEvent/:id', eventController.deleteEvent);
 module.exports = api;
