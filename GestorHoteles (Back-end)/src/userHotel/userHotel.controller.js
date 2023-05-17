@@ -44,7 +44,6 @@ exports.updateUserHotel = async (req, res) => {
     }
 }
 
-
 exports.deleteUserHotel = async (req, res) => {
     try {
         let idUserHotel = req.params.id;

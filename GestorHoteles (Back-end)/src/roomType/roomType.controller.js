@@ -39,9 +39,6 @@ exports.update = async(req, res)=>{
 exports.delete = async(req, res)=>{
     try{
         let { id } = req.params;
-
-
-        
         let roomTypeDelete = await RoomType.findOneAndDelete({_id: id});
         if(!roomTypeDelete) return res.send({message: 'Room type not found and not deleted'})
         return res.status(200).send({message: `Room type with name ${roomTypeDelete.name}, deleted successfully` });

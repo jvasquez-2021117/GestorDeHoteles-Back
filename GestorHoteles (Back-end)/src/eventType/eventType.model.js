@@ -3,10 +3,9 @@
 const mongoose = require('mongoose');
 
 const eventTypeSchema = mongoose.Schema({
-    description: {
+    name: {
         type: String
     }
-
 }, {
     versionKey: false
 });

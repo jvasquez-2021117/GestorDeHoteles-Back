@@ -34,28 +34,30 @@ exports.register = async (req, res) => {
         let data = req.body;
         data.password = await encrypt(data.password);
         data.role = 'CLIENT';
+        if (data.name == '' || data.email == '' || data.surname == '' || data.password == '') return res.send({ message: 'Check that all fields are complete' })
         let existUser = await User.findOne({ email: data.email });
-        if (existUser) return res.send({ message: 'This email already existr' });
+        if (existUser) return res.send({ message: 'This email already exists' });
         let user = new User(data);
         await user.save();
         return res.send({ message: 'Account created succesfully' });
     } catch (e) {
         console.error(e);
-        return res.status(500).send({ message: 'Error creating account' });
+        return res.status(500).send({ message: 'Error creating account', });
     }
 }
 
 exports.login = async (req, res) => {
     try {
         let data = req.body;
-        let msg = validateData(data.email, data.password);
-        if (msg) return res.status(400).send({ message: msg });
+        if (data.email == '' || data.password == '') return res.send({ message: 'Check that all fields are complete' })
         let user = await User.findOne({ email: data.email });
         if (user && await checkPassword(data.password, user.password)) {
             let token = await createToken(user);
             let userLogged = {
+                id: user._id,
                 name: user.name,
-                surname: user.surname
+                surname: user.surname,
+                role: user.role
             }
             return res.send({ message: 'Use logged succesfully', token, userLogged });
         }
@@ -101,7 +103,7 @@ exports.updateUser = async (req, res) => {
 exports.deleteUser = async (req, res) => {
     try {
         let idUser = req.params.id;
-        let adminUser = User.findOne({ role: "ADMIN-APP" });
+        let adminUser = await User.findOne({ role: "ADMIN-APP" });
         if (idUser == adminUser._id) return res.send({ message: 'Admin not deleted' });
         let userDeleted = await User.findOneAndDelete({ _id: idUser });
         if (!userDeleted) return res.send({ message: 'Account not found and not deleted' });
