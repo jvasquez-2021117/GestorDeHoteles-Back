@@ -3,6 +3,7 @@
 const Reservation = require('./reservation.model');
 const Hotel = require('../hotel/hotel.model');
 const Room = require('../room/room.model');
+const UserHotel = require('../userHotel/userHotel.model')
 
 exports.test = (req, res) => {
     return res.send({ message: 'Test function running' });
@@ -13,6 +14,9 @@ exports.addReservation = async (req, res) => {
         let data = req.body;
         let reservationExist = await Reservation.findOne({ $and:[{user: data.user}, {room: data.room}, {date: data.date}] });
         if (reservationExist) return res.send({ message: 'Reservation already exists' });
+        let userHotel = await UserHotel.findOne({hotel: data.hotel});
+        data.adminHotel = userHotel._id;
+        console.log(data.adminHotel);
         let reservation = new Reservation(data);
         await reservation.save();
         let updateRoom = await Room.findOneAndUpdate({_id: data.room}, {availability: 'No disponible'});
@@ -41,7 +45,7 @@ exports.deleteReservation = async (req, res) => {
         let reservationId = req.params.id
         let deleteReservation = await Reservation.findByIdAndDelete({_id: reservationId});
         if(!deleteReservation) return res.send({message: 'Reservation not found'});
-        let updateRoom = await Room.findOneAndUpdate({_id: data.room}, {availability: 'Disponible'});
+        let updateRoom = await Room.findOneAndUpdate({_id: deleteReservation.room}, {availability: 'Disponible'}, {new: true});
         return res.status(201).send({message: 'Reservation deleted successfully'});
     }catch(error){
         console.error(error)
@@ -62,7 +66,7 @@ exports.getReservation = async (req, res) => {
 exports.getById = async (req, res) => {
     try {
         let { id } = req.params;
-        let reservation = await Reservation.findOne({ _id: id });
+        let reservation = await Reservation.findOne({ _id: id }).populate('user').populate('hotel').populate('room');
         if (!reservation) return res.send({ message: 'Reservation not found' });
         return res.status(200).send({ reservation });
     } catch (err) {
@@ -73,8 +77,8 @@ exports.getById = async (req, res) => {
 
 exports.hotelReservation = async (req, res) => {
     try {
-        let { hotel } = req.body;
-        let reservations = await Reservation.find({ hotel: hotel });
+        let { id } = req.params;
+        let reservations = await Reservation.find({ adminHotel: id });
         return res.status(200).send({ reservations });
     } catch (e) {
         console.error(e);

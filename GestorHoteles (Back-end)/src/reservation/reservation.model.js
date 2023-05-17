@@ -21,10 +21,16 @@ const reservationSchema = mongoose.Schema({
     event: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Event',
-        required: true
+        required: true,
+        default: 'No event'
     },
     date: {
         type: Date,
+        required: true
+    },
+    adminHotel: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'UserHotel',
         required: true
     }
 }, {
