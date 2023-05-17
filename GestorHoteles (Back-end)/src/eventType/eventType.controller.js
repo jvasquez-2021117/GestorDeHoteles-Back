@@ -9,7 +9,7 @@ exports.test = (req, res) => {
 exports.addEventType = async (req, res) => {
     try {
         let data = req.body;
-        let existsEventType = await EventType.findOne({ description: data.description });
+        let existsEventType = await EventType.findOne({ name: data.name });
         if (existsEventType) return res.send({ message: 'Type event already exists' });
         let eventType = new EventType(data);
         await eventType.save();

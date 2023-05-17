@@ -54,3 +54,25 @@ exports.getById = async (req, res) => {
         return res.status(500).send({ message: 'Error getting' });
     }
 }
+
+exports.searchEvents = async(req, res)=>{
+    try{
+        let data = req.body;
+        let events = await Events.findOne({$and: [{_id: data.hotel}, {event: data.event}]});
+        return res.status(200).send({events});
+    }catch(e){
+        console.error(e);
+        return res.status(500).send({message: 'Error to search'})
+    }
+}
+
+exports.searchEventByHotel = async(req, res)=>{
+    try{
+        let { id } = req.params;
+        let events = await Events.find({hotel: id}).populate('eventType');
+        return res.status(200).send({events});
+    }catch(e){
+        console.error(e);
+        return res.status(500).send({message: 'Error to search 222'})
+    }
+}
