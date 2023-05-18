@@ -24,6 +24,8 @@ exports.updateEvent = async (req, res) => {
     try {
         let eventId = req.params.id;
         let data = req.body;
+        let event = await Events.findOne({name: data.name});
+        if(event) return res.send({message: 'Event already exists'});
         let updateEvent = await Events.findOneAndUpdate({ _id: eventId }, data, { new: true });
         if (!updateEvent) return res.send({ message: 'Event not found' });
         return res.status(201).send({ message: 'Event updated successfully' });
