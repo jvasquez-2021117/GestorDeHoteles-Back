@@ -30,10 +30,6 @@ const billSchema = mongoose.Schema({
         ref: 'Room',
         required: true
     },
-    description: {
-        type: String,
-        required: true
-    },
     roomPrice: {
         type: Number,
         required: true

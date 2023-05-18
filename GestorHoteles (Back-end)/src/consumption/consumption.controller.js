@@ -54,3 +54,15 @@ exports.getById = async(req, res)=>{
         return res.status(500).send({message: 'Error getting'});
     }
 }
+
+exports.delete = async(req, res)=>{
+    try{
+        let { id } = req.params;
+        let consumptionDelete = await Consumption.findByIdAndDelete({_id: id});
+        if(!consumptionDelete) return res.send({message: 'Consumption not found and not deleted'});
+        return res.status(200).send({message: `Consumption ${consumptionDelete.name} deleted successfully`});
+    }catch(e){
+        console.error(e);
+        return res.status(500).send({message: 'Error deleting'})
+    }
+}

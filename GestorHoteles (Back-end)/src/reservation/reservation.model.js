@@ -32,6 +32,11 @@ const reservationSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'UserHotel',
         required: true
+    },
+    State:{
+        type: String,
+        required: true,
+        default: 'In progress'
     }
 }, {
     versionKey: false

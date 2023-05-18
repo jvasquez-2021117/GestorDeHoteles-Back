@@ -85,3 +85,14 @@ exports.hotelReservation = async (req, res) => {
         return res.status(500).send({ message: 'Error getting' });
     }
 }
+
+exports.updateState = async (req, res)=> {
+    try{
+        let { id } = req.params;
+        await Reservation.findOneAndUpdate({_id: id}, {State: 'Completed'}, {new: true});
+        return res.status(200).send({message: 'Update successfully'})
+    }catch(e){
+        console.error(e);
+        return res.status(500).send({message: 'Error updating'})
+    }
+}
