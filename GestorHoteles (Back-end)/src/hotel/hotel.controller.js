@@ -99,3 +99,14 @@ exports.updateImg = async (req, res) => {
         return res.status(500).send({ message: 'Error upload img' });
     }
 }
+
+exports.getHotelsData = async (req, res) => {
+    try {
+        let hotel = await Hotel.find();
+        const filteredData = hotel.map(({ name, nOfReservations }) => ({ name, nOfReservations }));
+        return res.status(200).send({ filteredData });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).send({ message: 'Error getting Hotel' });
+    }
+};

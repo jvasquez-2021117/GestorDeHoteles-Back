@@ -28,16 +28,15 @@ exports.updateUserHotel = async (req, res) => {
     try {
         let idUserHotel = req.params.id;
         let data = req.body
-        if (data.password != null) return res.send({ message: 'Password not update' });
-        let existUser = await User.findOne({ email: data.email });
+        let existUser = await UserHotel.findOne({ email: data.email });
         if (existUser) return res.send({ message: 'This email already exists' });
-        let updatedUserHotel = UserHotel.findOneAndUpdate(
+        let updatedUserHotel = await UserHotel.findOneAndUpdate(
             { _id: idUserHotel },
             data,
             { new: true }
         )
         if (!updatedUserHotel) return res.send({ message: 'User not found and not update' });
-        return res.send({ message: 'User updated', idUserHotel })
+        return res.status(201).send({ message: 'User updated' })
     } catch (e) {
         console.error(e);
         return res.status(500).send({ message: 'Error updating Admin Hotel' });
@@ -70,7 +69,7 @@ exports.getById = async (req, res) => {
     try {
         let { id } = req.params
         let userHotel = await UserHotel.findOne({ _id: id });
-        return res.status(200).send({userHotel});
+        return res.status(200).send({ userHotel });
     } catch (e) {
         console.error(e);
         return res.status(500).send({ message: 'Error getting' });
