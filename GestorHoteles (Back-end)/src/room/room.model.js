@@ -21,7 +21,9 @@ const roomSchema = mongoose.Schema({
         required: true
     },
     availability: {
-        type: String
+        type: String,
+        required: true,
+        default: 'Disponible'
     },
     hotel: {
         type: mongoose.Schema.Types.ObjectId,

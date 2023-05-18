@@ -24,6 +24,8 @@ exports.updateConsumption = async(req, res)=>{
     try{
         let consumptionId = req.params.id;
         let data = req.body;
+        let consumption = await Consumption.findOne({name: data.name});
+        if(consumption) return res.send({message: 'Consumption already exists'});
         let updateConsumption = await Consumption.findOneAndUpdate({_id: consumptionId}, data, {new: true});
         if(!updateConsumption) return res.send({message: 'Consumption not found'});
         return res.status(201).send({message: 'Consumption updated successfully'});

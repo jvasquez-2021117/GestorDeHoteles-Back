@@ -28,6 +28,8 @@ exports.update = async(req, res)=>{
     try{
         let { id } = req.params;
         let data = req.body;
+        let room = await Room.findOne({name: data.name});
+        if(room) return res.send({message: 'Room already exists'})
         let roomUpdate = await Room.findOneAndUpdate({_id: id}, data, {new:  true});
         if(!roomUpdate) return res.send({message: 'Room not found'});
         return res.status(200).send({message: 'Room updated'});

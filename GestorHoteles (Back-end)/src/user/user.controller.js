@@ -55,6 +55,7 @@ exports.login = async (req, res) => {
         if (msg) return res.status(400).send({ message: msg });
         let user = await User.findOne({ email: data.email });
         let userHotel = await UserHotel.findOne({ email: data.email });
+        console.log(userHotel);
         if (user && await checkPassword(data.password, user.password)) {
             let token = await createToken(user);
             let userLogged = {
@@ -66,7 +67,7 @@ exports.login = async (req, res) => {
             }
             return res.send({ message: 'Use logged succesfully', token, userLogged });
         } else if (userHotel && await checkPassword(data.password, userHotel.password))
-            console.log(checkPassword(data.password, userHotel.password)); {
+        console.log(checkPassword(data.password, userHotel.password)); {
             let token = await createToken(userHotel);
             let userLogged = {
                 id: userHotel._id,
