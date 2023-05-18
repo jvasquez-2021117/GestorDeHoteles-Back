@@ -99,7 +99,7 @@ exports.updateState = async (req, res)=> {
 
 exports.getCompleted = async (req, res)=>{
     try{
-        let reservation = await Reservation.find({State: 'Completed'});
+        let reservation = await Reservation.find({State: 'Completed'}).populate('user').populate('hotel').populate('room').populate('event');
         return res.status(200).send({reservation});
     }catch(e){
         console.error(e);
@@ -109,7 +109,7 @@ exports.getCompleted = async (req, res)=>{
 
 exports.getInprogress = async (req, res)=>{
     try{
-        let reservation = await Reservation.find({State: 'In progress'});
+        let reservation = await Reservation.find({State: 'In progress'}).populate('user').populate('hotel').populate('room').populate('event');
         return res.status(200).send({reservation});
     }catch(e){
         console.error(e);
