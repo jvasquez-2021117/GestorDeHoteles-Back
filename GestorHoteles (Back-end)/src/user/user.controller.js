@@ -47,30 +47,6 @@ exports.register = async (req, res) => {
     }
 }
 
-/* exports.login = async (req, res) => {
-    try {
-        let data = req.body;
-        if (data.email == '' || data.password == '') return res.send({ message: 'Check that all fields are complete' })
-        let msg = validateData(data.email, data.password);
-        if (msg) return res.status(400).send({ message: msg });
-        let user = await User.findOne({ email: data.email });
-        if (user && await checkPassword(data.password, user.password)) {
-            let token = await createToken(user);
-            let userLogged = {
-                id: user._id,
-                user: user._id,
-                name: user.name,
-                surname: user.surname,
-                role: user.role
-            }
-            return res.send({ message: 'Use logged succesfully', token, userLogged });
-        }
-        return res.status(404).send({ message: 'Invalid Credentials' });
-    } catch (e) {
-        console.error(e);
-        return res.status(404).send({ message: 'Error not logged' });
-    }
-} */
 exports.login = async (req, res) => {
     try {
         let data = req.body;

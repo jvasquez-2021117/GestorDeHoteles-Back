@@ -9,5 +9,6 @@ api.post('/addServices', servicesController.addServices);
 api.put('/updateService/:id', servicesController.updateService);
 api.get('/getService', servicesController.getService);
 api.get('/getById/:id', servicesController.getById);
+api.delete('/delete/:id', servicesController.delete)
 
 module.exports = api;
