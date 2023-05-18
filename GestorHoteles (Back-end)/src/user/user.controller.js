@@ -1,6 +1,7 @@
 'use strict'
 
 const User = require('./user.model');
+const UserHotel = require('../userHotel/userHotel.model')
 const { encrypt, checkPassword, validateData } = require('../utils/validate');
 const { createToken } = require('../services/jwt')
 
@@ -46,7 +47,7 @@ exports.register = async (req, res) => {
     }
 }
 
-exports.login = async (req, res) => {
+/* exports.login = async (req, res) => {
     try {
         let data = req.body;
         if (data.email == '' || data.password == '') return res.send({ message: 'Check that all fields are complete' })
@@ -61,6 +62,41 @@ exports.login = async (req, res) => {
                 name: user.name,
                 surname: user.surname,
                 role: user.role
+            }
+            return res.send({ message: 'Use logged succesfully', token, userLogged });
+        }
+        return res.status(404).send({ message: 'Invalid Credentials' });
+    } catch (e) {
+        console.error(e);
+        return res.status(404).send({ message: 'Error not logged' });
+    }
+} */
+exports.login = async (req, res) => {
+    try {
+        let data = req.body;
+        if (data.email == '' || data.password == '') return res.send({ message: 'Check that all fields are complete' })
+        let msg = validateData(data.email, data.password);
+        if (msg) return res.status(400).send({ message: msg });
+        let user = await User.findOne({ email: data.email });
+        let userHotel = await UserHotel.findOne({ email: data.email });
+        if (user && await checkPassword(data.password, user.password)) {
+            let token = await createToken(user);
+            let userLogged = {
+                id: user._id,
+                user: user._id,
+                name: user.name,
+                surname: user.surname,
+                role: user.role
+            }
+            return res.send({ message: 'Use logged succesfully', token, userLogged });
+        } else if (userHotel && await checkPassword(data.password, userHotel.password)) {
+            let token = await createToken(userHotel);
+            let userLogged = {
+                id: userHotel._id,
+                user: userHotel._id,
+                name: userHotel.name,
+                surname: userHotel.surname,
+                role: userHotel.role
             }
             return res.send({ message: 'Use logged succesfully', token, userLogged });
         }
