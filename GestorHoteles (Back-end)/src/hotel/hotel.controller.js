@@ -25,6 +25,8 @@ exports.updateHotel = async (req, res) => {
     try {
         let hotelId = req.params.id;
         let data = req.body;
+        let hotel = await Hotel.findOne({name: data.name});
+        if(hotel) return res.send({message: 'Hotel already exists'});
         let updateHotel = await Hotel.findOneAndUpdate({ _id: hotelId }, data, { new: true });
         if (!updateHotel) return res.send({ message: 'Hotel not found' });
         return res.status(201).send({ message: 'Hotel updated successfully' });

@@ -27,6 +27,8 @@ exports.update = async(req, res)=>{
     try{
         let { id } = req.params;
         let data = req.body;
+        let roomType = await RoomType.findOne({name: data.name});
+        if(roomType) return res.send({message: 'roomType already exists'})
         let roomTypeExists = await RoomType.findOneAndUpdate({_id: id}, data, {new: true});
         if(!roomTypeExists) return res.send({message: 'Room type not found and not updated'});
         return res.status(200).send({message: 'Room type updated succesfully'});
