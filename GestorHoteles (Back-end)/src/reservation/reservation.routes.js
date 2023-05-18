@@ -11,6 +11,7 @@ api.delete('/deleteReservation/:id', reservationController.deleteReservation);
 api.get('/getReservation', reservationController.getReservation);
 api.get('/getById/:id', reservationController.getById);
 api.get('/hotelReservation/:id', reservationController.hotelReservation);
+api.put('/updateState/:id', reservationController.updateState);
 
 
 module.exports = api;

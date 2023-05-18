@@ -9,7 +9,7 @@ exports.test = (req, res)=>{
 exports.addServices = async(req, res)=>{
     try{
         let data = req.body;
-        let serviceExist = await Services.findOne({description: data.description});
+        let serviceExist = await Services.findOne({name: data.name});
         if(serviceExist) return res.send({message: 'Additional service already exists'});
         let service = new Services(data);
         await service.save();
@@ -52,5 +52,17 @@ exports.getById = async(req, res)=>{
     }catch(err){
         console.error(err);
         return res.status(500).send({message: 'Error getting'});
+    }
+}
+
+exports.delete = async(req, res)=>{
+    try{
+        let { id } = req.params;
+        let serviceDelete = await Services.findByIdAndDelete({_id: id});
+        if(!serviceDelete) return res.send({message: 'Service not found and not deleted'});
+        return res.status(200).send({message: `Service ${serviceDelete.name} deleted successfully`});
+    }catch(e){
+        console.error(e);
+        return res.status(500).send({message: 'Error deleting'})
     }
 }

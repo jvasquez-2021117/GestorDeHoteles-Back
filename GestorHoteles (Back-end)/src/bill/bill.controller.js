@@ -6,6 +6,7 @@ const Service = require('../aditionalServices/services.model');
 const Consumption = require('../consumption/consumption.model');
 const Hotel = require('../hotel/hotel.model');
 const User = require('../user/user.model');
+const Reservation = require('../reservation/reservation.model');
 const { use } = require('../reservation/reservation.routes');
 
 exports.test = (req, res) => {
@@ -15,11 +16,9 @@ exports.test = (req, res) => {
 exports.addBill = async (req, res) => {
     try {
         let data = req.body;
-        let billExist = await Bill.findOne({ description: data.description });
         let user = await User.findOne({_id: data.user});
         data.name = user.name;
         data.surname = user.surname;
-        if (billExist) return res.send({ message: 'Bill already exists' });
         let roomUpdate = await Room.findByIdAndUpdate({ _id: data.room }, { availability: 'No disponible' }, { new: true });
         data.roomPrice = parseInt(roomUpdate.price);
         let totalServices = 0;
