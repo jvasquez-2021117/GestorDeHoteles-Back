@@ -104,13 +104,17 @@ exports.updateUser = async (req, res) => {
         if (idUser == adminUser._id) return res.send({ message: 'Admin not update' });
         let existUser = await User.findOne({ email: data.email });
         if (existUser) return res.send({ message: 'This email already exists' });
-        let updatedUser = User.findOneAndUpdate(
+        let updatedUser = await User.findOneAndUpdate(
             { _id: idUser },
             data,
             { new: true }
         )
+        let userLogged = {
+            name: updatedUser.name,
+            surname: updatedUser.surname
+        }
         if (!updatedUser) return res.send({ message: 'User not found and not update' });
-        return res.send({ message: 'User updated', idUser })
+        return res.send({ message: 'User updated', idUser, userLogged })
     } catch (e) {
         console.error(e);
         return res.status(404).send({ message: 'Error updating user' });
@@ -128,5 +132,16 @@ exports.deleteUser = async (req, res) => {
     } catch (e) {
         console.error(e);
         return res.status(404).send({ message: 'Error deleting user' });
+    }
+}
+
+exports.getById = async (req, res) => {
+    try {
+        let { id } = req.params;
+        let accountUser = await User.findOne({ _id: id })
+        return res.status(200).send({ accountUser })
+    } catch (e) {
+        console.error(e);
+        return res.status(404).send({ message: 'Error getting user' });
     }
 }
